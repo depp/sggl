@@ -23,6 +23,7 @@ def get_platform():
 
 def cmd_emit(reg, args):
     """Run the command-line 'emit' command."""
+    import shutil
     platform = args.platform
     if platform is None:
         platform = get_platform()
@@ -30,13 +31,18 @@ def cmd_emit(reg, args):
         max_version=args.max_version,
         extensions=args.extensions,
         platform=platform)
-    #for dep in deps:
-    #    print('Dependency:', dep)
-    for name, value in data.items():
-        path = os.path.join(args.out, name)
+    fnames = set(data.keys()).union(['opengl_load.c'])
+    dirpath = os.path.dirname(__file__)
+    for fname in sorted(fnames):
+        path = os.path.join(args.out, fname)
         print('Creating {}...'.format(path))
-        with open(path, 'wb') as fp:
-            fp.write(value)
+        try:
+            fdata = data[fname]
+        except KeyError:
+            shutil.copyfile(os.path.join(dirpath, fname), path)
+        else:
+            with open(path, 'wb') as fp:
+                fp.write(fdata)
 
 def library_functions(path):
     """Get a list of functions defined in a library."""
