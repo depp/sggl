@@ -1,0 +1,2 @@
+gl:core 1.1
+gl:compatibility 1.1

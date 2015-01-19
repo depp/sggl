@@ -1,0 +1,4 @@
+gl:core 1.3
+gl:compatibility 1.3
+
+ARB_imaging
