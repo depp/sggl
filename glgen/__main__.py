@@ -139,10 +139,10 @@ def main():
     pp.add_argument(
         'extensions', nargs='*',
         help='Extensions to emit')
-    pp.set_defaults(cmd=cmd_emit)
+    pp.set_defaults(cmd_func=cmd_emit)
 
     pp = ss.add_parser('scan', help='calculate supported OpenGL version')
-    pp.set_defaults(cmd=cmd_scan)
+    pp.set_defaults(cmd_func=cmd_scan)
     pp.add_argument(
         '--library', help='library to scan')
 
@@ -150,7 +150,7 @@ def main():
     api, profile = parse_api(args.api)
     reg_path = args.reg_path
     r = Registry.load(reg_path, api, profile)
-    args.cmd(r, args)
+    args.cmd_func(r, args)
 
 if __name__ == '__main__':
     main()
